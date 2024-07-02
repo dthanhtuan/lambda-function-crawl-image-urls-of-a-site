@@ -27,10 +27,16 @@ exports.handler = async (event = {}) => {
             throw error;
         });
         // Extract src attributes of all img tags
-        const imageSources = await page.evaluate(() => {
+        const imageSources = await page.evaluate((minWidth, minHeight) => {
             const images = document.querySelectorAll('img');
-            return Array.from(images).map(img => img.getAttribute('src') || '').filter(src => src !== '');
-        });
+            return Array.from(images).map(img => {
+                return {
+                    src: img.getAttribute('src') || '',
+                    width: img.naturalWidth,
+                    height: img.naturalHeight
+                };
+            }).filter(image => image.src !== '' && image.width >= minWidth && image.height >= minHeight);
+        }, event.minWidth, event.minHeight);
 
         // Return the list of image sources
         return {
