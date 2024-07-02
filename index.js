@@ -1,4 +1,4 @@
-// import * as AWS from 'aws-sdk';
+// import * as AWS from 'aws-sdk'; FIXME: comment this out when deploying to lambda
 const chromium = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
 const puppeteerDefault = require('puppeteer');
